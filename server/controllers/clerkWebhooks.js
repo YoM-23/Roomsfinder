@@ -9,8 +9,8 @@ const clerkWebhooks = async (req, res)=>{
     //Getting headers
         const headers = {
             "svix-id": req.headers["svix-id"],
-             "svix-timestamp": req.headers["svix-id"],
-              "svix-signature": req.headers["svix-id"],
+            "svix-timestamp": req.headers["svix-timestamp"],
+            "svix-signature": req.headers["svix-signature"],
         };
 
         //Varifing Headers
@@ -50,7 +50,7 @@ const clerkWebhooks = async (req, res)=>{
 
     } catch (error) {
         console.log(error.message);
-        res.json({success: true, message: "Webhook Recirved"});
+        res.json({success: false, message: error.message });
                 
     }
 }

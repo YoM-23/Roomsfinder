@@ -11,16 +11,20 @@ import Layout from './pages/HomeOwner/Layout'
 import Dashboard from './pages/HomeOwner/Dashboard'
 import AddRoom from './pages/HomeOwner/AddRoom'
 import ListRoom from './pages/HomeOwner/ListRoom'
+import {Toaster} from 'react-hot-toast'
+import { useAppContext } from './context/AppContext'
 
 
 const App = () => {
 
   const isOwnerPath = useLocation().pathname.includes("owner")
+  const {showHomeReg} = useAppContext();
 
   return (
     <div>
+     <Toaster /> 
       {!isOwnerPath && <Navbar />}
-      {false && <HomeReg />}
+      {showHomeReg && <HomeReg />}
       <div className='min-h-[70vh]'>
       <Routes>
         <Route path='/' element={<Home/>} />
