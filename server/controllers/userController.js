@@ -1,11 +1,12 @@
-
 // GET /api/user/
-
 export const getUserData = async (req, res)=>{
     try {
+        if (!req.user) {
+            return res.json({success: false, message: "User not found"})
+        }
         const role = req.user.role;
         const recentSearchedCities = req.user.recentSearchCities;
-        req.json({success: true, role, recentSearchedCities})
+        res.json({success: true, role, recentSearchedCities})
     } catch (error) {
         res.json({success: false, message: error.message})
     }
@@ -16,7 +17,11 @@ export const getUserData = async (req, res)=>{
 export const storeRecentSearchedCities = async (req, res)=>{
     try {
         const {recentSearchCity} = req.body;
-        const user = await req.user;
+        const user = req.user;
+
+        if (!user) {
+            return res.json({success: false, message: "User not found"})
+        }
 
         if (user.recentSearchCities.length < 3) {
             user.recentSearchCities.push(recentSearchCity)

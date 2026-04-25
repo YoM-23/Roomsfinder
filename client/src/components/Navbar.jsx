@@ -49,7 +49,7 @@ const Navbar = () => {
 
                 {/* Logo */}
                 <Link to='/'>
-                   <img src={assets.logo} alt="logo" className={'h-9 $ {isScolled &&"invert opacity-100"}'} />
+                   <img src={assets.logo} alt="logo" className={`h-9 ${isScrolled ? "invert opacity-100" : ""}`} />
                 </Link>
 
                 {/* Desktop Nav */}
@@ -71,7 +71,7 @@ const Navbar = () => {
 
                 {/* Desktop Right */}
                 <div className="hidden md:flex items-center gap-4">
-                    <img src={assets.searchIcon} alt="search" className={'${isScolled && "invert"} h-7 transition-all duration-500'} />
+                    <img src={assets.searchIcon} alt="search" className={`${isScrolled ? "invert" : ""} h-7 transition-all duration-500`} />
 
                     {user ?
                     (<UserButton>
@@ -80,7 +80,7 @@ const Navbar = () => {
                         </UserButton.MenuItems>
                     </UserButton>)
                 :
-                (<button onClick={openSignIn} className="bg-black text-white px-8 py-2.5 rounded-full ml-4 transition-all duration-500">
+                (<button onClick={()=> navigate('/login')} className="bg-black text-white px-8 py-2.5 rounded-full ml-4 transition-all duration-500 hover:scale-105 active:scale-95">
                         Login
                     </button>)
                 }
@@ -97,7 +97,7 @@ const Navbar = () => {
                         </UserButton.MenuItems>
                     </UserButton>}
 
-                   <img onClick={()=> setIsMenuOpen(!isMenuOpen)}src={assets.menuIcon} alt="" className={'${isScolled && "invert"} h-4'} />
+                   <img onClick={()=> setIsMenuOpen(!isMenuOpen)}src={assets.menuIcon} alt="" className={`${isScrolled ? "invert" : ""} h-4`} />
                 </div>
 
                 {/* Mobile Menu */}
@@ -116,7 +116,7 @@ const Navbar = () => {
                        {isOwner ?'Dashboard' : 'List Your Home'}
                     </button>}
 
-               {!user && <button onClick={openSignIn} className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500">
+               {!user && <button onClick={() => { setIsMenuOpen(false); navigate('/login'); }} className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500 hover:scale-105 active:scale-95">
                         Login
                     </button>}
                 </div>

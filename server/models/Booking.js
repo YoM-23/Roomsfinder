@@ -4,13 +4,13 @@ const bookingSchema = new mongoose.Schema({
     user: {type: String, ref: "User", required: true},
     room: {type: String, ref: "Room", required: true},
     home: {type: String, ref: "Home", required: true},
-    checkInDate: {type: Data, required: true},
-    checkOutDate: {type: Data, required: true},
+    checkInDate: {type: Date, required: true},
+    checkOutDate: {type: Date, required: true},
     totalPrice: {type: Number, required: true},
     guests: {type: Number, required: true},
     status: {
         type: String,
-        enum: ["pending", "confirmed", "cancalled"],
+        enum: ["pending", "confirmed", "cancelled"],
         default: "pending",
     },
     paymentMethod: {
@@ -18,10 +18,10 @@ const bookingSchema = new mongoose.Schema({
         required: true,
         default: "Pay At Home",
     },
-    isPaid: {Type: Boolean, defualt: false}
+    isPaid: {type: Boolean, default: false}
     
 },{timestamps: true});
 
-const Booking = mongoose.model("Room", bookingSchema);
+const Booking = mongoose.model("Booking", bookingSchema);
 
 export default Booking;

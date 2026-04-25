@@ -6,9 +6,9 @@ import Room from "../models/Room.js";
 export const createRoom = async (req, res)=>{
     try {
         const {roomType, priceperNight, amenities} = req.body;
-        const Home = await Home.findOne({owner: req.auth.userId})
+        const homeData = await Home.findOne({owner: req.auth.userId})
 
-        if(!home) return res.json({ success: false, message: "No Home found"});
+        if(!homeData) return res.json({ success: false, message: "No Home found"});
 
 
         //upload images to cloudinary
@@ -21,15 +21,15 @@ export const createRoom = async (req, res)=>{
         const images = await Promise.all(uploadImages)
 
         await Room.create({
-            home: hotel._id,
+            home: homeData._id,
             roomType,
             pricePerNight: +priceperNight,
             amenities: JSON.parse(amenities),
             images,
         })
-        res.JSON({ success: true, message: "Room created successfully" })
+        res.json({ success: true, message: "Room created successfully" })
     } catch (error) {
-         res.JSON({ success: false, message: error.message })
+         res.json({ success: false, message: error.message })
     }
 }
 
@@ -43,7 +43,7 @@ export const getRooms = async (req, res)=>{
                 path: 'owner',
                 select: 'image'
             }
-        }).sort({createAt: -1 })
+        }).sort({createdAt: -1 })
         res.json({success: true, rooms});
     } catch (error) {
         res.json({success: false, message: error.message});
@@ -56,12 +56,12 @@ export const getRooms = async (req, res)=>{
 //API to get all rooms for a specific home
 export const getOwnerRooms = async (req, res)=>{
     try {
-        const homeData = await Home({owner:req.auth.userId})
-        const rooms = await Room.find({home: homeData._id.toString()}).populate("jome");
+        const homeData = await Home.findOne({owner:req.auth.userId})
+        const rooms = await Room.find({home: homeData._id.toString()}).populate("home");
         res.json({success: true, rooms});
         
     } catch (error) {
-         res.json({success: false, message: error,message});
+         res.json({success: false, message: error.message});
     }
 }
 

@@ -11,6 +11,8 @@ import Layout from './pages/HomeOwner/Layout'
 import Dashboard from './pages/HomeOwner/Dashboard'
 import AddRoom from './pages/HomeOwner/AddRoom'
 import ListRoom from './pages/HomeOwner/ListRoom'
+import Login from './pages/Login'
+import SignUp from './pages/SignUp'
 import {Toaster} from 'react-hot-toast'
 import { useAppContext } from './context/AppContext'
 
@@ -28,6 +30,8 @@ const App = () => {
       <div className='min-h-[70vh]'>
       <Routes>
         <Route path='/' element={<Home/>} />
+        <Route path='/login' element={<Login/>} />
+        <Route path='/sign-up' element={<SignUp/>} />
         <Route path='/rooms' element={<AllRooms/>} />
         <Route path='/rooms/:id' element={<RoomDetails/>} />
         <Route path='/my-bookings' element={<MyBookings/>} />

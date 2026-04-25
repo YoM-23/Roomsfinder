@@ -18,11 +18,22 @@ export const AppProvider = ({ children })=>{
     const [isOwner, setIsOwner] = useState(false)
     const [showHomeReg, setShowHomeReg] = useState(false)
     const [searchedCities, setSearchedCities] = useState([])
+    const [rooms, setRooms] = useState([])
 
+    const fetchRooms = async () => {
+        try {
+            const { data } = await axios.get('/api/rooms')
+            if (data.success) {
+                setRooms(data.rooms)
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const fetchUser = async ()=>{
         try {
-            await axios.get('/api/user', {headers: {Authorization: `Bearer ${await getToken()}`}})
+            const { data } = await axios.get('/api/user', {headers: {Authorization: `Bearer ${await getToken()}`}})
 
             if (data.success) {
                 setIsOwner(data.role === "homeOwner");
@@ -34,9 +45,13 @@ export const AppProvider = ({ children })=>{
                 },5000)
             }
         } catch (error) {
-            toast.error(error.message)
+            console.error(error)
         }
     }
+
+    useEffect(()=>{
+        fetchRooms();
+    },[])
 
     useEffect(()=>{
         if (user) {
@@ -46,7 +61,7 @@ export const AppProvider = ({ children })=>{
 
 
     const value ={
-        currency, navigate, user, getToken, isOwner, setIsOwner, axios, showHomeReg, setShowHomeReg, setSearchedCities, searchedCities
+        currency, navigate, user, getToken, isOwner, setIsOwner, axios, showHomeReg, setShowHomeReg, setSearchedCities, searchedCities, rooms, fetchRooms
     }
 
     return(

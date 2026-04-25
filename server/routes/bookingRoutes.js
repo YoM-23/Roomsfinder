@@ -1,7 +1,7 @@
 import express from 'express';
 import { checkAvailabilityAPI, createBooking, getHomeBookings, getUserBookings } from '../controllers/bookingController.js';
 import { protect } from '../middleware/authMiddleware.js';
-import { getUserData } from '../controllers/userController';
+import { getUserData } from '../controllers/userController.js';
 
 const bookingRouter = express.Router();
 
