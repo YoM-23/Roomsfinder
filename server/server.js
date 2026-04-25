@@ -14,11 +14,11 @@ connectDB()
 connectCloudinary();
 
 const app = express()
-app.use(cors()) //Enable Cross-Origin Resource Sharing
+app.use(cors({ origin: true, credentials: true })) //Enable Cross-Origin Resource Sharing
 
 //Middleware
 app.use(express.json())
-app.use(clerkMiddleware())
+app.use(clerkMiddleware({ secretKey: process.env.CLERK_SECRET_KEY }))
 
 //API to listen to clerk webhooks
 app.use("/api/clerk", clerkWebhooks)

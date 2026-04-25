@@ -33,7 +33,10 @@ export const AppProvider = ({ children })=>{
 
     const fetchUser = async ()=>{
         try {
-            const { data } = await axios.get('/api/user', {headers: {Authorization: `Bearer ${await getToken()}`}})
+            const token = await getToken();
+            console.log("Clerk Token Check:", token ? "Token present" : "Token MISSING");
+            
+            const { data } = await axios.get('/api/user', {headers: {Authorization: `Bearer ${token}`}})
 
             if (data.success) {
                 setIsOwner(data.role === "homeOwner");

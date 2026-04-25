@@ -15,7 +15,10 @@ const HomeReg = () => {
     const onSubmitHandler = async (event)=>{
         try {
             event.preventDefault();
-            const {data} = await axios.post(`/api/homes/`, {name, contact, address, city}, {headers: {Authorization: `Bearer ${await getToken()}`}})
+            const token = await getToken();
+            console.log("Submitting Home Reg with token:", token ? "YES" : "NO");
+            
+            const {data} = await axios.post(`/api/homes/`, {name, contact, address, city}, {headers: {Authorization: `Bearer ${token}`}})
 
             if (data.success) {
                 toast.success(data.message)
