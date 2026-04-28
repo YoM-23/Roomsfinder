@@ -15,6 +15,7 @@ export const AppProvider = ({ children }) => {
   const { user } = useUser();
   const { getToken } = useAuth();
 
+<<<<<<< HEAD
   const [isOwner, setIsOwner] = useState(false)
   const [showHomeReg, setShowHomeReg] = useState(false)
   const [searchedCities, setSearchedCities] = useState([])
@@ -27,10 +28,47 @@ export const AppProvider = ({ children }) => {
             setRooms(data.rooms)
         }else{
             toast.error(data.message)
+=======
+    const [isOwner, setIsOwner] = useState(false)
+    const [showHomeReg, setShowHomeReg] = useState(false)
+    const [searchedCities, setSearchedCities] = useState([])
+    const [rooms, setRooms] = useState([])
+
+    const fetchRooms = async () => {
+        try {
+            const { data } = await axios.get('/api/rooms')
+            if (data.success) {
+                setRooms(data.rooms)
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const fetchUser = async ()=>{
+        try {
+            const token = await getToken();
+            console.log("Clerk Token Check:", token ? "Token present" : "Token MISSING");
+            
+            const { data } = await axios.get('/api/user', {headers: {Authorization: `Bearer ${token}`}})
+
+            if (data.success) {
+                setIsOwner(data.role === "homeOwner");
+                setSearchedCities(data.recentSearchedCities)
+            }else{
+                //return Fetching User /details after 5 seconds
+                setTimeout(()=>{
+                    fetchUser()
+                },5000)
+            }
+        } catch (error) {
+            console.error(error)
+>>>>>>> ac9f9e132bbf8a30dec436546d3e6ca8fe2aca46
         }
     } catch (error) {
          toast.error(error.message)
     }
+<<<<<<< HEAD
   }
 
 
@@ -51,6 +89,22 @@ export const AppProvider = ({ children }) => {
       }
     } catch (error) {
       toast.error(error.message);
+=======
+
+    useEffect(()=>{
+        fetchRooms();
+    },[])
+
+    useEffect(()=>{
+        if (user) {
+        fetchUser();
+        }
+    },[user])
+
+
+    const value ={
+        currency, navigate, user, getToken, isOwner, setIsOwner, axios, showHomeReg, setShowHomeReg, setSearchedCities, searchedCities, rooms, fetchRooms
+>>>>>>> ac9f9e132bbf8a30dec436546d3e6ca8fe2aca46
     }
   };
 

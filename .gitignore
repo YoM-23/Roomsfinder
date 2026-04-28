@@ -1,1 +1,34 @@
-node_modules
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Environment files (Commented out to allow tracking as per request)
+# .env
+# .env.local
+# .env.development.local
+# .env.test.local
+# .env.production.local
+# client/.env
+# server/.env
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
