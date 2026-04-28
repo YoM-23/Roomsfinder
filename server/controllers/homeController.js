@@ -16,9 +16,9 @@ export const registerHome = async (req, res)=>{
 
         await User.findByIdAndUpdate(owner, {role: "homeOwner"});
 
-        res.json({succcess: true, message: "Home Registered Successfully"})
+        res.json({success: true, message: "Home Registered Successfully"})
         
     } catch (error) {
-        res.json({succcess: falser, message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
