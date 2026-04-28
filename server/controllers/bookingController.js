@@ -79,7 +79,7 @@ export const createBooking = async (req, res) => {
 
 export const getHomeBookings = async (req, res) => {
     try {
-        const homeData = await Home.findOne({ owner: req.auth.userId });
+        const homeData = await Home.findOne({ owner: req.user._id });
         if (!homeData) {
             return res.json({ success: false, message: "No Home found" });
         }

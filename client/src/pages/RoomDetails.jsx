@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 
 const RoomDetails = () => {
     const { id } = useParams()
-    const { rooms, user, axios, getToken } = useAppContext()
+    const { rooms, user, axios, getToken, navigate } = useAppContext()
     const { openSignIn } = useClerk()
     
     const [room, setRoom] = useState(null)

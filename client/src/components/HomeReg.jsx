@@ -8,7 +8,7 @@ const HomeReg = () => {
     const {setShowHomeReg, axios, getToken, setIsOwner} = useAppContext()
 
     const [name, setName] = useState("")
-    const [address, setAddess] = useState("")
+    const [address, setAddress] = useState("")
     const [contact, setContact] = useState("")
     const [city, setCity] = useState("")
 
@@ -55,18 +55,19 @@ const HomeReg = () => {
                         Phone
                     </label>
                     <input onChange={(e)=> setContact(e.target.value)} value={contact} id='contact' type="text" placeholder='Type here' className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light" required/>
-                    {/* Address */}
-                    <div className='w-full mt-4'>
+                </div>
+                {/* Address */}
+                <div className='w-full mt-4'>
                     <label htmlFor="address" className='font-medium text-gray-500'>
                         Address
                     </label>
-                    <input onChange={(e)=> setAddess(e.target.value)} value={address} id='address' type="text" placeholder='Type here' className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light" required/>
+                    <input onChange={(e)=> setAddress(e.target.value)} value={address} id='address' type="text" placeholder='Type here' className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light" required/>
                 </div>
 
                 {/* Select City Drop Down */}
                 <div className='w-full mt-4 max-w-60 mr-auto'>
                     <label htmlFor="city" className='font-medium text-gray-500'>City</label>
-                    <select onChange={(e)=> setCity(e.target.value)} value={city}  id="city" className='className="border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light' required>
+                    <select onChange={(e)=> setCity(e.target.value)} value={city}  id="city" className='border border-gray-200 rounded w-full px-3 py-2.5 mt-1 outline-indigo-500 font-light' required>
                         <option value="">Select City</option>
                         {cities.map((city)=>(
                             <option key={city} value={city}>{city}</option>
@@ -75,7 +76,6 @@ const HomeReg = () => {
                 </div>
                 <button className='bg-indigo-500 hover:bg-indigo-600 transition-all text-white mr-auto px-6 py-2 rounded cursor-pointer mt-6'>Register</button>
 
-                </div>
             </div>
         </form>
 

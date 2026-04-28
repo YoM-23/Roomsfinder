@@ -5,8 +5,8 @@ import Room from "../models/Room.js";
 //API to create new room for a home
 export const createRoom = async (req, res)=>{
     try {
-        const {roomType, priceperNight, amenities} = req.body;
-        const homeData = await Home.findOne({owner: req.auth.userId})
+        const {roomType, pricePerNight, amenities} = req.body;
+        const homeData = await Home.findOne({owner: req.user._id})
 
         if(!homeData) return res.json({ success: false, message: "No Home found"});
 
@@ -23,7 +23,7 @@ export const createRoom = async (req, res)=>{
         await Room.create({
             home: homeData._id,
             roomType,
-            pricePerNight: +priceperNight,
+            pricePerNight: +pricePerNight,
             amenities: JSON.parse(amenities),
             images,
         })
@@ -56,7 +56,7 @@ export const getRooms = async (req, res)=>{
 //API to get all rooms for a specific home
 export const getOwnerRooms = async (req, res)=>{
     try {
-        const homeData = await Home.findOne({owner:req.auth.userId})
+        const homeData = await Home.findOne({owner:req.user._id})
         const rooms = await Room.find({home: homeData._id.toString()}).populate("home");
         res.json({success: true, rooms});
         

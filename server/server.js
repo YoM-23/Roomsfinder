@@ -29,6 +29,16 @@ app.use('/api/homes', homeRouter)
 app.use('/api/rooms', roomRouter)
 app.use('/api/bookings', bookingRouter)
 
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.error("Unhandled Error:", err.stack);
+    res.status(500).json({ success: false, message: err.message || "Internal Server Error" });
+});
+
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, ()=> console.log(`Server running on port ${PORT}`));
+app.listen(PORT, ()=> {
+    console.log(`Server running on port ${PORT}`);
+    if (!process.env.MONGODB_URI) console.error("CRITICAL: MONGODB_URI is missing!");
+    if (!process.env.CLERK_SECRET_KEY) console.error("CRITICAL: CLERK_SECRET_KEY is missing!");
+});
