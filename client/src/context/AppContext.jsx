@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { toast } from "react-hot-toast";
@@ -15,64 +15,26 @@ export const AppProvider = ({ children }) => {
   const { user } = useUser();
   const { getToken } = useAuth();
 
-<<<<<<< HEAD
   const [isOwner, setIsOwner] = useState(false)
   const [showHomeReg, setShowHomeReg] = useState(false)
   const [searchedCities, setSearchedCities] = useState([])
   const [rooms, setRooms] = useState([])
 
-  const fetchRooms = async () =>{
+  const fetchRooms = useCallback(async () =>{
     try {
         const { data } = await axios.get('/api/rooms')
         if (data.success){
             setRooms(data.rooms)
         }else{
             toast.error(data.message)
-=======
-    const [isOwner, setIsOwner] = useState(false)
-    const [showHomeReg, setShowHomeReg] = useState(false)
-    const [searchedCities, setSearchedCities] = useState([])
-    const [rooms, setRooms] = useState([])
-
-    const fetchRooms = async () => {
-        try {
-            const { data } = await axios.get('/api/rooms')
-            if (data.success) {
-                setRooms(data.rooms)
-            }
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    const fetchUser = async ()=>{
-        try {
-            const token = await getToken();
-            console.log("Clerk Token Check:", token ? "Token present" : "Token MISSING");
-            
-            const { data } = await axios.get('/api/user', {headers: {Authorization: `Bearer ${token}`}})
-
-            if (data.success) {
-                setIsOwner(data.role === "homeOwner");
-                setSearchedCities(data.recentSearchedCities)
-            }else{
-                //return Fetching User /details after 5 seconds
-                setTimeout(()=>{
-                    fetchUser()
-                },5000)
-            }
-        } catch (error) {
-            console.error(error)
->>>>>>> ac9f9e132bbf8a30dec436546d3e6ca8fe2aca46
         }
     } catch (error) {
          toast.error(error.message)
     }
-<<<<<<< HEAD
-  }
+  }, []);
 
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async function getUser() {
     try {
       const { data } = await axios.get("/api/user", {
         headers: { Authorization: `Bearer ${await getToken()}` },
@@ -84,39 +46,23 @@ export const AppProvider = ({ children }) => {
       } else {
         //return Fetching User /details after 5 seconds
         setTimeout(() => {
-          fetchUser();
+          getUser();
         }, 5000);
       }
     } catch (error) {
       toast.error(error.message);
-=======
-
-    useEffect(()=>{
-        fetchRooms();
-    },[])
-
-    useEffect(()=>{
-        if (user) {
-        fetchUser();
-        }
-    },[user])
-
-
-    const value ={
-        currency, navigate, user, getToken, isOwner, setIsOwner, axios, showHomeReg, setShowHomeReg, setSearchedCities, searchedCities, rooms, fetchRooms
->>>>>>> ac9f9e132bbf8a30dec436546d3e6ca8fe2aca46
     }
-  };
+  }, [getToken]);
 
   useEffect(() => {
     if (user) {
       fetchUser();
     }
-  }, [user]);
+  }, [user, fetchUser]);
 
    useEffect(() => {
       fetchRooms();
-  }, []);
+  }, [fetchRooms]);
 
   const value = {
     currency,
@@ -137,4 +83,5 @@ export const AppProvider = ({ children }) => {
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAppContext = () => useContext(AppContext);

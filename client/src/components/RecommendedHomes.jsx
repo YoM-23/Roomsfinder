@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import HomeCard from "./HomeCard";
 import Title from "./Title";
 import { useAppContext } from "../context/AppContext";
 
 const RecommendedHomes = () => {
   const { rooms, searchedCities } = useAppContext();
-  const [recommended, setRecommended] = useState([]);
 
-  const filterHomes = () => {
-    const filterHomes = rooms
-      .slice()
-      .filter((room) => searchedCities.includes(room.home.city));
-    setRecommended(filterHomes);
-  };
-
-  useEffect(() => {
-    filterHomes();
-  }, [rooms, searchedCities]);
+  const recommended = rooms.filter((room) => searchedCities.includes(room.home.city));
 
   return (
     recommended.length > 0 && (
